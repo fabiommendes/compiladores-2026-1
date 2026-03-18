@@ -1,20 +1,15 @@
-=======
-Avisos!
-=======
+**Avisos!**
 
 Sem avisos
 
-==============
-Compiladores 1
-==============
+# Compiladores 1
 
 Este é o Git da disciplina Compiladores 1. Aqui ficará o material produzido em
 sala de aula assim como tarefas, wiki e discussões. Este arquivo contêm
 informações básicas sobre a disciplina e o plano de ensino do semestre.
 
 
-Informações básicas
-===================
+## Informações básicas
 
 Curso: 
     Engenharia de Software
@@ -30,8 +25,7 @@ Créditos:
     04
 
 
-Ementa
-======
+## Ementa
 
 * Introdução
 * Organização e estrutura de compiladores e interpretadores.
@@ -47,15 +41,13 @@ Ementa
 * Compiladores, Interpretadores e Parsers na Engenharia de Software.
 
 
-Horário das aulas e atendimento 
-===============================
+## Horário das aulas e atendimento 
 
 Aulas teóricas e de exercícios: quartas e sextas-feiras às 16h.
 Atendimento: quartas-feiras e sextas-feiras às 13h no Lappis.
 
 
-Informações importantes
-========================
+## Informações importantes
 
 Este curso utiliza GitHub para gerenciar o curso. A comunicação com a 
 turma é feita através de atualizações no Github ou no Microsoft Teams. 
@@ -69,10 +61,7 @@ Moodle:
     (em construção)
     Senha: loxlox
 
-
-
-Critérios de avaliação
-======================
+## Critérios de avaliação
 
 A avaliação será feita com base em 4 tipos de atividades:
 
@@ -88,8 +77,7 @@ mostrarem um rendimento de no mínimo 90% no trabalho garantem uma menção mín
 de MM, independente da nota nas provas.
 
 
-Código de ética e conduta
--------------------------
+### Código de ética e conduta
 
 Algumas avaliações serão realizadas com auxílio do computador. Todas as
 submissões serão processadas por um programa de detecção de plágio. Qualquer
@@ -100,8 +88,7 @@ que forneceu a resposta para cópia e o aluno que obteve a mesma.
 As mesmas considerações também se aplicam às provas teóricas e outras atividades.
 
 
-Prepare-se
-==========
+## Prepare-se
 
 O curso utiliza alguns pacotes e ferramentas para os quais cada estudante deverá
 providenciar a instalação o mais cedo o possível. O curso assume Python 3.12+
@@ -116,23 +103,20 @@ Python e estiver confortável em resolver problemas de configuração que possam
 aparecer durante o curso.
 
 
-Bibliografia principal
-----------------------
+### Bibliografia principal
 
 * Crafting Interpreters, Robert Nystrom, 2015-2021. (https://craftinginterpreters.com/)
 * Crafting Interpreters, Versão em Python (https://github.com/fabiommendes/craftinginterpreters)
 
 
-Material suplementar
---------------------
+### Material suplementar
 
 * **(SICP)** Structure and Interpretation of Computer Programs, Gerald Jay Sussman and Hal Abelson, MIT Press. (https://web.mit.edu/alexmv/6.037/sicp.pdf)
 * **Curso de Python:** https://scrimba.com/learn/python
 * **Curso de Python no Youtube (pt-BR):** https://www.youtube.com/watch?v=S9uPNppGsGo&list=PLvE-ZAFRgX8hnECDn1v9HNTI71veL3oW0
 
 
-Cronograma de atividades
-========================
+## Cronograma de atividades
 
 Consultar `cronograma <CRONOGRAMA.rst>`_.
 
