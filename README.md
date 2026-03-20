@@ -118,7 +118,7 @@ aparecer durante o curso.
 
 ## Cronograma de atividades
 
-Consultar `cronograma <CRONOGRAMA.rst>`_.
+Consultar [cronograma](CRONOGRAMA.rst).
 
 Obs.: O cronograma está sujeito a alterações. As datas das avaliações podem ser 
 adiadas para um dia com disponibilidade de laboratório.
