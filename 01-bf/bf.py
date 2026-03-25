@@ -1,55 +1,77 @@
 import sys
 
-def interpret(source: str):
-    tape = [0] * 10000
+
+def main():
+    file_name = sys.argv[-1]
+
+    with open(file_name) as f:
+        source = f.read()
+
+    interpret(source)
+
+
+def interpret(src: str):
+    tape = [0] * 10
     pos = 0
     ip = 0
-    jump_points = []
+    ip_stack = []
+    i = 0
 
-    while ip < len(source):
-        c = source[ip]
-        match c:
+    while ip < len(src):
+        instr = src[ip]
+        if instr not in "+-[]><.":
+            ip += 1
+            continue
+
+        # # i += 1
+        # # if i > 20:
+        # #     break
+        # print(f"{instr}: pos = {pos}, tape = {tape}, ip = {ip}")
+
+        match instr:
             case "+":
                 tape[pos] = (tape[pos] + 1) % 256
             case "-":
                 tape[pos] = (tape[pos] - 1) % 256
-            case ">":
-                pos += 1
             case "<":
                 pos -= 1
-                if pos < 0:
-                    raise IndexError("Tape position out of bounds")
+            case ">":
+                pos += 1
             case ".":
-                print(chr(tape[pos]), end="")
+                print(chr(tape[pos]), end="", flush=True)
             case ",":
-                tape[pos] = ord(sys.stdin.read(1)) if sys.stdin.isatty() else 0
-            case "[" if tape[pos] == 0:
-                ip = skip_loop(source, ip)
-                continue
+                raise NotImplementedError
             case "[":
-                jump_points.append(ip)
+                if tape[pos] == 0:
+                    ip = find_loop_end(src, ip) + 1
+                    continue
+                else:
+                    ip_stack.append(ip)
             case "]":
-                ip = jump_points.pop()
+                ip = ip_stack.pop()
                 continue
+
         ip += 1
 
-def skip_loop(source: str, ip: int) -> int:
-    open_brackets = 1
-    while open_brackets > 0:
-        ip += 1
-        if ip >= len(source):
-            raise ValueError("Unmatched opening bracket")
-        if source[ip] == "[":
-            open_brackets += 1
-        elif source[ip] == "]":
-            open_brackets -= 1
-    return ip + 1
 
-def main():
-    _, filename = sys.argv
-    with open(filename, "r") as f:
-        source = f.read()
-    interpret(source)
+def find_loop_end(src, ip):
+    assert src[ip] == "["
+
+    ip += 1
+    n_open = 1
+
+    while ip < len(src):
+        match src[ip]:
+            case "[":
+                n_open += 1
+            case "]":
+                n_open -= 1
+                if n_open == 0:
+                    return ip
+        ip += 1
+
+    raise ValueError("Colchetes nao pareados")
+
 
 if __name__ == "__main__":
     main()

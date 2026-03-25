@@ -8,6 +8,7 @@ y = 3
 y = x mais y
 <
 [->+<]
+>
 
 soma ascii para 0
 >
@@ -20,4 +21,5 @@ soma ascii para 0
 [->+<]
 
 imprime
+>
 .
