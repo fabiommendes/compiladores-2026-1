@@ -1,0 +1,5 @@
+[
+  { "name": "Joao", "age": 42, "male": false},
+  { "name": "Maria", "age": 40, "female": true},
+  { "name": "Jose", "langs": [ "python", "js"], "age": null}
+]
