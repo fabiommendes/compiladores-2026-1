@@ -1,7 +1,7 @@
 import sys
 import rich
 
-from .scanner import lex
+from .re_scanner import lex
 
 def main():
     if len(sys.argv) != 2:
