@@ -58,7 +58,7 @@ Cada aluno também deve preencher o formulário com nome, e-mail e usuário no G
 Github:
     https://github.com/fabiommendes/compiladores-2026-1
 Moodle:
-    (em construção)
+    https://aprender3.unb.br/course/view.php?id=30341
     Senha: loxlox
 
 ## Critérios de avaliação
