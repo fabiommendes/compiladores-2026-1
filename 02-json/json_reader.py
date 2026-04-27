@@ -1,3 +1,7 @@
+"""
+Leitor de JSON, implementado usando funções.
+"""
+
 import sys
 import pprint
 from typing import Literal

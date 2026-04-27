@@ -1,3 +1,9 @@
+"""
+Leitor de JSON, implementado usando uma classe Parser. 
+
+A interface pública é a função read_json, que recebe uma string contendo o JSON
+e retorna o valor correspondente em Python.
+"""
 from dataclasses import dataclass
 from string import ascii_letters, digits
 

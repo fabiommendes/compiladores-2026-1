@@ -1,0 +1,40 @@
+// Representa o DFA definido no arquivo dfa.py.
+// Este arquivo pode ser visualizado usando o Graphviz, instalando a extensão 
+// "Graphviz Preview" no VSCode ou usando uma ferramenta online como https://dreampuf.github.io/GraphvizOnline
+// 
+// initial: State = 0
+// final: set[State] = {3, 4}
+// transitions: dict[State, dict[Msg, State]] = {
+//     0: {
+//         "a": 1,
+//         "b": 2,
+//         "c": 2,
+//     },
+//     1: {
+//         "b": 3,
+//     },
+//     2: {
+//         "a": 4,
+//     },
+// }
+digraph {
+    // Orientação da esquerda para a direita
+    rankdir = LR;
+    
+    // Formato dos nós
+    node [shape = circle;];
+    
+    // Definição dos estados
+    S0 [label = "0";shape = diamond;];
+    S1 [label = "1";];
+    S2 [label = "2";];
+    S3 [label = "3";shape = doublecircle;];
+    S4 [label = "4";shape = doublecircle;];
+    
+    // Definição das transições
+    S0 -> S1 [label = "a";];
+    S0 -> S2 [label = "b";];
+    S0 -> S2 [label = "c";];
+    S1 -> S3 [label = "b";];
+    S2 -> S4 [label = "a";];
+}
