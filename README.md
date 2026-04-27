@@ -2,6 +2,7 @@
 
 Sem avisos
 
+
 # Compiladores 1
 
 Este é o Git da disciplina Compiladores 1. Aqui ficará o material produzido em
@@ -11,18 +12,12 @@ informações básicas sobre a disciplina e o plano de ensino do semestre.
 
 ## Informações básicas
 
-Curso: 
-    Engenharia de Software
-Professor: 
-    Fábio Macêdo Mendes
-Disciplina: 
-    Compiladores 1
-Semestre/ano: 
-    01/2026
-Carga horária: 
-    60 h
-Créditos: 
-    04
+* **Curso:** Engenharia de Software
+* **Professor:** Fábio Macêdo Mendes
+* **Disciplina:** Compiladores 1
+* **Semestre/ano:** 01/2026
+* **Carga horária:** 60 h
+* **Créditos:**04
 
 
 ## Ementa
@@ -55,11 +50,12 @@ Habilite a funcionalidade "Watch" no repositório para receer notificações sob
 
 Cada aluno também deve preencher o formulário com nome, e-mail e usuário no Github.
 
-Github:
+* **Github:**
     https://github.com/fabiommendes/compiladores-2026-1
-Moodle:
+* **Moodle:**
     https://aprender3.unb.br/course/view.php?id=30341
-    Senha: loxlox
+    **Senha:** loxlox
+
 
 ## Critérios de avaliação
 
