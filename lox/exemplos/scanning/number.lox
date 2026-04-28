@@ -2,10 +2,9 @@
 123.456
 .456
 123.
-// 0xA
-// 0xFF
-// 0X123
-// 0Xabc
+0xA
+0xFF
+0X123
 
 // expect: NUMBER 123 123
 // expect: NUMBER 123.456 123.456
@@ -13,8 +12,9 @@
 // expect: NUMBER 456 456
 // expect: NUMBER 123 123
 // expect: DOT . null
-// skip: INT 0xA 10
-// skip: INT 0xFF 255
-// skip: INT 0X123 291
-// skip: INT 0Xabc 2748
-// skip: EOF  null
+// expect: NUMBER 0 0
+// expect: IDENTIFIER xA null
+// expect: NUMBER 0 0
+// expect: IDENTIFIER xFF null
+// expect: NUMBER 0 0
+// expect: IDENTIFIER X123 null

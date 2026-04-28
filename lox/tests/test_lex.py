@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Iterator
 from unittest import TestCase
 
-from lox.testing import mod, read_example
+from lox.testing import Result, mod, read_example
 from lox.token import RESERVED_WORDS, Token
 
 TEST_BASE = Path(__file__).parent.parent / "exemplos" / "scanning"
@@ -78,21 +78,16 @@ def check_scanner(file: str):
     path = TEST_BASE / f"{file}.lox"
     example = read_example(path)
 
-    def expected_tokens() -> Iterator[str]:
-        for line in example.output_lines():
-            yield normalize_token_representation(line)
-
-    def scan_tokens() -> Iterator[str]:
-        for token in tokenize(example.source):
-            yield normalize_token_representation(str(token))
-
     print(f"Análise léxica, {file}.lox")
     print(indent(strip_comments(example.source)))
 
     tokens = tokenize(example.source)
     print("\nTokens obtidos")
 
-    for token, result in zip(tokens, example.expect):
+    iter_tokens = iter(tokens)
+    iter_expected = iter(example.expect)
+
+    for token, result in zip(iter_tokens, iter_expected):
         print(indent(f"* {token}"))
         print(indent(f"* {result}"), end="")
 
@@ -117,12 +112,8 @@ def check_scanner(file: str):
 
         print(" ...OK\n")
 
-
-def normalize_token_representation(line: str) -> str:
-    if line.endswith("null"):
-        line = line[:-4] + "None"
-    line = line.replace("'", "").rstrip()
-    return line
+    consume_EOF(iter_tokens)
+    consume_EOF(iter_expected)
 
 
 def tokenize(src: str) -> list[Token]:
@@ -149,6 +140,15 @@ def strip_comments(src: str) -> str:
 
 def indent(text: str, prefix: str = "    ") -> str:
     return "\n".join(prefix + line for line in text.splitlines())
+
+
+def consume_EOF(items: Iterator[Token | Result]):
+    for item in items:
+        if isinstance(item, Token):
+            assert item.kind in ("EOF", "eof"), f"token extra inesperado: {item!r}"
+        else:
+            msg = f"resultado extra inesperado: {item!r}"
+            assert item.message.lower().startswith("eof"), msg
 
 
 if __name__ == "__main__":

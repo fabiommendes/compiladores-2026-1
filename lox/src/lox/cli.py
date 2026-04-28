@@ -1,9 +1,11 @@
 import sys
+
 import rich
 
 from .re_scanner import lex
 from .parser import parse
 from .interpreter import interpret
+
 
 
 def main():
