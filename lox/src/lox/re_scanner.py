@@ -1,26 +1,12 @@
-import string
 import re
+import string
 from typing import cast
 
-from .token import Token, TokenType
+from .token import RESERVED_WORDS, Token, TokenType
 
 LETTERS = set(string.ascii_letters + "_")
 NUMBERS = set("0123456789")
 ALPHAS = {*LETTERS, *NUMBERS}
-RESERVED_WORDS: set[TokenType] = {
-    "if",
-    "else",
-    "while",
-    "for",
-    "print",
-    "class",
-    "fun",
-    "return",
-    "this",
-    "var",
-    "super",
-}
-
 NUMBER = re.compile(r"\d+")
 
 TOKEN_PATTERNS = {
@@ -49,6 +35,7 @@ LITERAL_TYPES: dict[str, TokenType] = {
 LOX_RE = re.compile(
     "|".join(f"(?P<{key}>{value})" for key, value in TOKEN_PATTERNS.items())
 )
+
 
 def lex(source: str) -> list[Token]:
     tokens: list[Token] = []

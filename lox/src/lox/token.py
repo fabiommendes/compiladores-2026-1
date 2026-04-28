@@ -1,5 +1,5 @@
-from typing import Literal
 from dataclasses import dataclass
+from typing import Literal
 
 type TokenType = Literal[
     # Básicos
@@ -20,6 +20,8 @@ type TokenType = Literal[
     "this",
     "super",
     "var",
+    "and",
+    "or",
     # Símbolos especiais
     ";",
     "{",
@@ -44,6 +46,25 @@ type TokenType = Literal[
     "EOF",
     "INVALID",
 ]
+
+RESERVED_WORDS: set[TokenType] = {
+    "if",
+    "else",
+    "while",
+    "for",
+    "print",
+    "class",
+    "fun",
+    "return",
+    "this",
+    "var",
+    "super",
+    "and",
+    "or",
+}
+
+LITERALS: dict[str, TokenType] = {"true": "bool", "false": "bool", "nil": "nil"}
+
 
 @dataclass
 class Token:

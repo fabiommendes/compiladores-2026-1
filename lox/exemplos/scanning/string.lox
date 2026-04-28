@@ -1,0 +1,6 @@
+""
+"foo"
+"foo bar"
+// expect: STRING "" 
+// expect: STRING "foo" foo
+// expect: STRING "foo bar" foo bar
