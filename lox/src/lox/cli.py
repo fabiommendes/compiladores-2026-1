@@ -2,6 +2,9 @@ import sys
 import rich
 
 from .re_scanner import lex
+from .parser import parse
+from .interpreter import interpret
+
 
 def main():
     if len(sys.argv) != 2:
@@ -13,7 +16,5 @@ def main():
         source = f.read()
 
     tokens = lex(source)
-    rich.print(tokens)
-    ...
-    # ast = parse(tokens)
-    # inpret(ast)
+    ast = parse(tokens)
+    interpret(ast)
