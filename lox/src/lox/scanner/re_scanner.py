@@ -2,7 +2,7 @@ import re
 import string
 from typing import cast
 
-from .token import RESERVED_WORDS, Token, TokenType
+from ..token import RESERVED_WORDS, Token, TokenType
 
 LETTERS = set(string.ascii_letters + "_")
 NUMBERS = set("0123456789")

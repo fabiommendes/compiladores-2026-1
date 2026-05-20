@@ -1,11 +1,11 @@
+import os
 import sys
 
 import rich
 
-from .re_scanner import lex
-from .parser import parse
 from .interpreter import interpret
-
+from .parser import parse
+from .scanner import lex
 
 
 def main():
@@ -14,6 +14,10 @@ def main():
         exit(1)
 
     path = sys.argv[1]
+    if not os.path.exists(path):
+        rich.print(f"[red b]ERRO:[/] arquivo '{path}' não encontrado")
+        exit(1)
+
     with open(path) as f:
         source = f.read()
 
