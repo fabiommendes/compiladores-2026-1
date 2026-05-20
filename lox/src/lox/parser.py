@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Never, cast
 
-from .ast import Operator, Program
+from .ast import Assign, Block, If, Name, Operator, Program, Var
 from .ast import Stmt, Print, ExprStmt, While
 from .ast import Expr, Literal, BinOp
 from .token import Token, TokenType
@@ -12,6 +12,7 @@ def parse(tokens: list[Token]) -> Program:
     program = parser.program()
     # Verifica se leu a lista de tokens até o final?
     return program
+
 
 @dataclass
 class LoxParser:
@@ -24,20 +25,25 @@ class LoxParser:
     def program(self) -> Program:
         stmts = []
         while self.peek().kind != "EOF":
-            stmt = self.statement()
+            stmt = self.declaration()
             stmts.append(stmt)
         return Program(stmts)
 
-    def statement(self) -> Stmt:
+    def declaration(self) -> Stmt:
         match self.peek().kind:
             case "class":
                 return self.not_implemented("class_decl")
             case "fun":
                 return self.not_implemented("fun_decl")
             case "var":
-                return self.not_implemented("var_decl")
+                return self.var_decl()
+            case _:
+                return self.statement()
+
+    def statement(self) -> Stmt:
+        match self.peek().kind:
             case "if":
-                return self.not_implemented("if_stmt")
+                return self.if_stmt()
             case "for":
                 return self.not_implemented("for_stmt")
             case "while":
@@ -47,7 +53,7 @@ class LoxParser:
             case "return":
                 return self.not_implemented("return_stmt")
             case "{":
-                return self.not_implemented("block_stmt")
+                return self.block_stmt()
             case _:
                 expr = self.expression()
                 self.expect(";")
@@ -59,29 +65,78 @@ class LoxParser:
         self.expect(";")
         return Print(expr)
 
+    def var_decl(self) -> Var:
+        """
+        'var' NAME ( '=' expr )? ';'
+        """
+        self.expect("var")
+        name_token = self.expect("name")
+
+        if self.peek().kind == "=":
+            self.expect("=")
+            expr = self.expression()
+            self.expect(";")
+        else:
+            self.expect(";")
+            expr = None
+
+        return Var(name_token.lexeme, expr)
+
     def while_stmt(self) -> While:
         self.expect("while")
         self.expect("(")
         cond = self.expression()
         self.expect(")")
 
+        stmt = self.statement()
+
+        return While(cond, stmt)
+
+    def if_stmt(self) -> If:
+        self.expect("if")
+        self.expect("(")
+        cond = self.expression()
+        self.expect(")")
+
+        then = self.statement()
+
+        or_else = None
+        if self.match("else"):
+            or_else = self.statement()
+
+        return If(cond, then, or_else)
+
+    def block_stmt(self):
         self.expect("{")
+
         stmts = []
         while self.peek().kind != "}":
-            stmt = self.statement()
+            stmt = self.declaration()
             stmts.append(stmt)
         self.expect("}")
 
-        return While(cond, stmts)
+        return Block(stmts)
 
     def expression(self) -> Expr:
-        # FIXME
-        return self.math_expr()
+        return self.assignment()
+
+    def assignment(self) -> Expr:
+        """
+        ( call "." )? IDENTIFIER "=" assignment | logic_or ;
+        """
+
+        if self.peek_next().kind == "=":
+            name = self.expect("name")
+            self.expect("=")
+            right = self.assignment()
+            return Assign(name.lexeme, right)
+        else:
+            return self.math_expr()
 
     def math_expr(self) -> Expr:
         value = self.term()
 
-        while self.peek().kind  in ("+", "-"):
+        while self.peek().kind in ("+", "-"):
             op = self.read()
             right = self.term()
             value = BinOp(value, cast(Operator, op.kind), right)
@@ -91,7 +146,7 @@ class LoxParser:
     def term(self) -> Expr:
         value = self.atom()
 
-        while self.peek().kind  in ("*", "/"):
+        while self.peek().kind in ("*", "/"):
             op = self.read()
             right = self.atom()
             value = BinOp(value, cast(Operator, op.kind), right)
@@ -100,9 +155,13 @@ class LoxParser:
 
     def atom(self) -> Expr:
         token = self.read()
-        if token.kind not in ("string", "number", "bool", "nil"):
-            self.error(f"átomo inválido: {token.kind}")
-        return Literal(token.value)
+        match token.kind:
+            case "string" | "number" | "bool" | "nil":
+                return Literal(token.value)
+            case "name":
+                return Name(token.lexeme)
+            case _:
+                self.error(f"átomo inválido: {token.kind}")
 
     def not_implemented(self, rule: str) -> Any:
         raise NotImplementedError(f"regra {rule} não-implementada")
@@ -115,6 +174,18 @@ class LoxParser:
             return self.tokens[self.index]
         except IndexError:
             return Token("", "INVALID", -1)
+
+    def peek_next(self) -> Token:
+        try:
+            return self.tokens[self.index + 1]
+        except IndexError:
+            return Token("", "INVALID", -1)
+
+    def match(self, kind: TokenType) -> bool:
+        if self.peek().kind == kind:
+            self.read()
+            return True
+        return False
 
     def read(self) -> Token:
         token = self.peek()

@@ -1,5 +1,5 @@
-from .ast import Program, LoxValue, Operator
-from .ast import Expr, BinOp, Literal
+from .ast import Assign, Block, ExprStmt, If, Program, LoxValue, Operator, Var
+from .ast import Expr, BinOp, Literal, Name
 from .ast import Stmt, Print, While
 from typing import assert_never
 
@@ -26,6 +26,13 @@ def eval(expr: Expr, env: Env) -> LoxValue:
             right_value = eval(right, env)
             return apply_operator(op, left_value, right_value)
 
+        case Name(name):
+            return env[name]
+
+        case Assign(name, right):
+            env[name] = value = eval(right, env)
+            return value
+
         case _:
             type_name = type(expr).__name__
             raise ValueError(f"tipo não suportado: {type_name}")
@@ -37,10 +44,26 @@ def exec(cmd: Stmt, env: Env):
             value = eval(expr, env)
             print(value)
 
-        case While(cond, stmts):
+        case While(cond, stmt):
             while eval(cond, env):
-                for stmt in stmts:
-                    exec(stmt, env)
+                exec(stmt, env)
+
+        case If(cond, then, or_else):
+            if eval(cond, env):
+                exec(then, env)
+            elif or_else is not None:
+                exec(or_else, env)
+
+        case ExprStmt(expr):
+            eval(expr, env)
+
+        case Var(name, right):
+            value = eval(right, env) if right is not None else None
+            env[name] = value
+
+        case Block(stmts):
+            for stmt in stmts:
+                exec(stmt, env)
 
         case _:
             type_name = type(cmd).__name__
