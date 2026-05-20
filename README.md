@@ -57,6 +57,8 @@ Cada aluno também deve preencher o formulário com nome, e-mail e usuário no G
     **Senha:** loxlox
 * **Github Classroom:**
     https://classroom.github.com/classrooms/286379105-fcte-compiladores-2026-1
+* **Lista de exercícios:**
+    https://classroom.github.com/a/gEtkFXCa
 
 ## Critérios de avaliação
 
