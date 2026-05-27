@@ -55,8 +55,6 @@ Cada aluno também deve preencher o formulário com nome, e-mail e usuário no G
 * **Moodle:**
     https://aprender3.unb.br/course/view.php?id=30341
     **Senha:** loxlox
-* **Github Classroom:**
-    https://classroom.github.com/classrooms/286379105-fcte-compiladores-2026-1
 * **Lista de exercícios:**
     https://classroom.github.com/a/gEtkFXCa
 
