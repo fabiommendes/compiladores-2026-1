@@ -1,13 +1,15 @@
 from dataclasses import dataclass
 from typing import Any, Never, cast
 
-from .ast import Assign, Block, If, Name, Operator, Program, Var
-from .ast import Stmt, Print, ExprStmt, While
-from .ast import Expr, Literal, BinOp
-from .token import Token, TokenType
+from ..ast import Assign, Block, If, Name, Operator, Program, Var
+from ..ast import Stmt, Print, ExprStmt, While
+from ..ast import Expr, Literal, BinOp
+from ..token import Token, TokenType
+from ..scanner import lex
 
 
-def parse(tokens: list[Token]) -> Program:
+def parse(source: str) -> Program:
+    tokens = lex(source)
     parser = LoxParser(tokens)
     program = parser.program()
     # Verifica se leu a lista de tokens até o final?
@@ -204,3 +206,4 @@ class LoxParser:
         if token:
             msg = f"linha {token.line} em '{token.lexeme}': {msg}"
         raise SyntaxError(msg)
+

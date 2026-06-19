@@ -1,0 +1,16 @@
+fun incrementer(x) {
+  fun f(n) {
+    return n + x;
+  }
+  return f;
+}
+
+var by1 = incrementer(1);
+var by2 = incrementer(2);
+
+var x = read_number("x: ");
+
+print x;
+print by1(x);
+print by2(x);
+print by1(by2(x));

@@ -1,0 +1,29 @@
+fun pair(x, y) {
+  fun get_x() { return x; }
+  fun get_y() { return y; }
+
+  fun set_x(v) { x = v; }
+  fun set_y(v) { y = v; }
+
+  fun print_pair() {
+    print x;
+    print y;
+  }
+
+  fun method_getter(name) {
+    if (name == "get_x") return get_x;
+    if (name == "get_y") return get_y;
+    if (name == "set_x") return set_x;
+    if (name == "set_y") return set_y;
+    if (name == "print") return print_pair;
+    print "metodo nao encontrado: " + name;
+  }
+  return method_getter;
+}
+
+var p1 = pair(1, 2);
+
+p1("print")();
+p1("set_x")(42);
+print "-----------";
+p1("print")();

@@ -1,0 +1,17 @@
+fun sayHello(x, y) {
+  print "Hello " + x;
+  print "Hello " + y;
+}
+
+var z = 1;
+
+fun add(x, y) {
+  return x + y + z;
+}
+
+sayHello("Foo", "Bar");
+
+{
+  var z = 2;
+  print add(1, 2);
+}

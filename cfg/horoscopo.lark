@@ -1,0 +1,20 @@
+start : "Hoje traz " eventos ", " "enquanto" porem ". " conselho "." amor
+
+eventos : "uma mistura de "?  "desafios e " ("boas"|"más") " notícias " ("no trabalho" | "na família" | "nos estudos") evento_qualificador?
+
+evento_qualificador : "especialmente a tarde"
+    | "exceto a noite"
+    | "somente quando você estiver tranquilo"
+    | "somente se for o dia da prova de compiladores"
+
+conselho : "É importante agir com cautela nas finanças e valorizar as relações verdadeiras"
+
+amor : "Para o amor, evite misturar amizade e romance."
+     | "Para o amor, viva a vida louca porque você só vive uma vez."
+
+
+porem : "as amizades podem passar por alguns conflitos"
+      | "cuidado com os amigos traíra"
+      |
+
+

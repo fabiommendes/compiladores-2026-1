@@ -1,5 +1,5 @@
 from .interpreter import interpret
-from .parser import parse
+from .parser.manual_parser import parse
 from .scanner import lex
 from .token import Token, TokenType
 
@@ -14,6 +14,5 @@ __all__ = [
 
 
 def run_source(source: str) -> None:
-    tokens = lex(source)
-    ast = parse(tokens)
+    ast = parse(source)
     interpret(ast)

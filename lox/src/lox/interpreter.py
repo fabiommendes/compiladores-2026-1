@@ -1,19 +1,59 @@
-from .ast import Assign, Block, ExprStmt, If, Program, LoxValue, Operator, Var
-from .ast import Expr, BinOp, Literal, Name
-from .ast import Stmt, Print, While
-from typing import assert_never
+from __future__ import annotations
+import math
+import time
+from typing import assert_never, cast
 
-type Env = dict[str, LoxValue]
+from .ast import (
+    ExprStmt,
+    Function,
+    If,
+    Program,
+    Operator,
+    Return,
+    Var,
+)
+from .ast import Assign, Call, Expr, BinOp, Literal, Name
+from .ast import Stmt, Print, While, Block
+
+from .runtime import (
+    Env,
+    LoxCallable,
+    LoxError,
+    LoxFunction,
+    LoxReturn,
+    LoxValue,
+    PyFunction,
+)
+
+
+def read_string(prompt):
+    return input(prompt)
+
+
+def read_number(prompt):
+    try:
+        return float(input(prompt))
+    except ValueError:
+        print("Digite um número válido")
+        return read_number(prompt)
 
 
 def new_env() -> Env:
-    return {}
+    env = Env()
+    env.declare("clock", PyFunction(time.time, 0))
+    env.declare("sqrt", PyFunction(math.sqrt, 1))
+    env.declare("read_number", PyFunction(read_number, 1))
+    env.declare("read_string", PyFunction(read_string, 1))
+    return env
 
 
 def interpret(program: Program):
     env = new_env()
-    for stmt in program.stmts:
-        exec(stmt, env)
+    try:
+        for stmt in program.stmts:
+            exec(stmt, env)
+    except LoxError as e:
+        print(e)
 
 
 def eval(expr: Expr, env: Env) -> LoxValue:
@@ -26,12 +66,24 @@ def eval(expr: Expr, env: Env) -> LoxValue:
             right_value = eval(right, env)
             return apply_operator(op, left_value, right_value)
 
-        case Name(name):
-            return env[name]
+        case Name(name, scope):
+            return env.read_at(name, cast(int, scope))
 
-        case Assign(name, right):
-            env[name] = value = eval(right, env)
-            return value
+        case Assign(name, right, scope):
+            return env.assign_at(name, cast(int, scope), eval(right, env))
+
+        case Call(callee, args):
+            function = eval(callee, env)
+            arg_values = [eval(arg, env) for arg in args]
+
+            if not isinstance(function, LoxCallable):
+                kind = type(function).__name__
+                raise LoxError(f"objeto {kind} não é uma função")
+            elif function.n_args() != len(arg_values):
+                msg = f"{function.name()} espera {function.n_args()} argumentos."
+                raise LoxError(msg)
+            else:
+                return function.call(arg_values)
 
         case _:
             type_name = type(expr).__name__
@@ -59,11 +111,20 @@ def exec(cmd: Stmt, env: Env):
 
         case Var(name, right):
             value = eval(right, env) if right is not None else None
-            env[name] = value
+            env.declare(name, value)
 
         case Block(stmts):
+            child_env = env.child()
             for stmt in stmts:
-                exec(stmt, env)
+                exec(stmt, child_env)
+
+        case Function(name, _, _):
+            env.declare(name, LoxFunction(cmd, env))
+
+        case Return(expr):
+            if expr is None:
+                raise LoxReturn(None)
+            raise LoxReturn(eval(expr, env))
 
         case _:
             type_name = type(cmd).__name__
@@ -80,5 +141,20 @@ def apply_operator(op: Operator, x, y):
             return x * y
         case "/":
             return x / y
+        case "^":
+            return x**y
+        case ">":
+            return x > y
+        case "<":
+            return x < y
+        case ">=":
+            return x >= y
+        case "<=":
+            return x <= y
+        case "==":
+            return x == y
+        case "!=":
+            return x != y
+
         case _:
             assert_never(op)

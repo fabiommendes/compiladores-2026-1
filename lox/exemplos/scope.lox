@@ -1,0 +1,5 @@
+var x = 42;
+{
+  var x = x; // deveria dar erro
+  print x;
+}

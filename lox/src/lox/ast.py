@@ -3,8 +3,23 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal as LiteralType
 
-type Operator = LiteralType["+", "-", "*", "/"]
-type LoxValue = str | float | bool | None
+type Operator = LiteralType[
+    "+",
+    "-",
+    "*",
+    "/",
+    "^",
+    ">",
+    "<",
+    ">=",
+    "<=",
+    "==",
+    "!=",
+]
+
+type LoxPrimitive = str | float | bool | None
+
+type Scope = int
 
 
 @dataclass
@@ -15,17 +30,19 @@ class Program:
 # ==============================================================================
 # Expressões
 # ==============================================================================
-type Expr = Literal | BinOp | Name | Assign
+type Expr = Literal | BinOp | Name | Assign | Call
 
 
 @dataclass
 class Literal:
-    value: str | float | bool | None
+    value: LoxPrimitive
 
 
 @dataclass
 class Name:
     name: str
+    scope: Scope | None = None
+    line_no: int = 0
 
 
 @dataclass
@@ -33,12 +50,21 @@ class BinOp:
     left: Expr
     op: Operator
     right: Expr
+    line_no: int = 0
 
 
 @dataclass
 class Assign:
     name: str
     right: Expr
+    scope: Scope | None = None
+    line_no: int = 0
+
+
+@dataclass
+class Call:
+    callee: Expr
+    args: list[Expr]
 
 
 ...
@@ -47,7 +73,7 @@ class Assign:
 # ==============================================================================
 # Comandos e declarações
 # ==============================================================================
-type Stmt = Print | While | If | ExprStmt | Var | Block  # ...
+type Stmt = Print | While | If | ExprStmt | Var | Block | Function | Return  # ...
 
 
 @dataclass
@@ -77,11 +103,24 @@ class ExprStmt:
 class Var:
     name: str
     right: Expr | None = None
+    line_no: int = 0
 
 
 @dataclass
 class Block:
     stmts: list[Stmt]
+
+
+@dataclass
+class Function:
+    name: str
+    args: list[str]
+    body: list[Stmt]
+
+
+@dataclass
+class Return:
+    expr: Expr | None
 
 
 ...

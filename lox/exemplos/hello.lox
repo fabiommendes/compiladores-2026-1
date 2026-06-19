@@ -1,11 +1,1 @@
-var n = true;
-var m = false;
-
-if (true) print "true";
-else print "false";
-
-if (cond)
-  print "true";
-else
-  print "false";
-
+print 1 + 2 + 3;

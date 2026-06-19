@@ -1,0 +1,14 @@
+var x = 1;
+{
+  fun setX(v) {
+    x = v; // scopo: x = 2, v = 0
+  }
+  setX(3);
+
+  var x = 2;
+  print x;
+
+  setX(3);
+  print x;
+}
+print x;
